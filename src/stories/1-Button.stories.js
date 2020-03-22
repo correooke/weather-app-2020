@@ -16,7 +16,3 @@ export const Emoji = () => (
     </span>
   </Button>
 );
-
-Text.story = {
-  name: 'textito'
-}
