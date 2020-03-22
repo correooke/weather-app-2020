@@ -1,4 +1,5 @@
 import React from 'react'
+import 'typeface-roboto'
 import CityInfo from './CityInfo'
 
 export default {
