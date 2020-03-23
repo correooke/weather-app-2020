@@ -4,9 +4,9 @@ import { render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
 // TDD
-test("Weather render", async () => {
+test("Weather render sunny", async () => {
     // AAA Arrange Act Assert
-    const { findByRole } = render(<Weather temperature={10} />)
+    const { findByRole } = render(<Weather temperature={10} state="sunny" />)
 
     const temp = await findByRole("heading")
 
