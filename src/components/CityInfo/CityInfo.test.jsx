@@ -18,5 +18,5 @@ test("CityInfo render", async () => {
     // El resultado es un array de componentes (cityAndCountryComponents)
     const cityAndCountryComponents = await findAllByRole("heading")
 
-    
+    // ????
 })
