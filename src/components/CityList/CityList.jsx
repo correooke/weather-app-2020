@@ -5,11 +5,12 @@ import CityInfo from './../CityInfo'
 import Weather from './../Weather'
 
 // li: es un item (según tag html, tiene el role "listitem")
-const renderCityAndCountry = cityAndCountry => {
+// renderCityAndCountry se va a convertir en una función que retorna otra función
+const renderCityAndCountry = eventOnClickCity => cityAndCountry => {
     const { city, country } = cityAndCountry
 
     return (
-        <li key={city}>
+        <li key={city} onClick={eventOnClickCity} >
             <Grid container 
                 justify="center"
                 alignItems="flex-start"
@@ -31,11 +32,11 @@ const renderCityAndCountry = cityAndCountry => {
 
 // cities: es un array, y en cada item tiene que tener la ciudad, pero además el country
 // ul: tag html para listas no ordenadas
-const CityList = ({ cities }) => {
+const CityList = ({ cities, onClickCity }) => {
     return (
         <ul>
             {
-                cities.map(cityAndCountry => renderCityAndCountry(cityAndCountry))
+                cities.map(cityAndCountry => renderCityAndCountry(onClickCity)(cityAndCountry))
             }
         </ul>
     )
@@ -43,6 +44,7 @@ const CityList = ({ cities }) => {
 
 CityList.propTypes = {
     cities: PropTypes.array.isRequired,
+    onClickCity: PropTypes.func.isRequired,
 }
 
 export default CityList
