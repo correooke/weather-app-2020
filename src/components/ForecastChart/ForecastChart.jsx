@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const ForecastChart = props => {
+const ForecastChart = ({ data }) => {
     return (
         <div>
             ForecastChart
@@ -10,7 +10,13 @@ const ForecastChart = props => {
 }
 
 ForecastChart.propTypes = {
-
+    data: PropTypes.arrayOf(
+        PropTypes.shape({
+            dayHour: PropTypes.string.isRequired,
+            min: PropTypes.string.isRequired,
+            max: PropTypes.string.isRequired,
+        }),
+    ).isRequired,
 }
 
 export default ForecastChart
