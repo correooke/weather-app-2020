@@ -42,6 +42,7 @@ const CityList = ({ cities, onClickCity }) => {
     )
 }
 
+// ¿Cómo podemos mejorar esta validación?
 CityList.propTypes = {
     cities: PropTypes.array.isRequired,
     onClickCity: PropTypes.func.isRequired,
