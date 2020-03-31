@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { LineChart, 
         Line, 
-        CartersianGrid, 
+        CartesianGrid, 
         XAxis, 
         YAxis,
         Tooltip,
@@ -18,7 +18,7 @@ const ForecastChart = ({ data }) => {
                 data={data} >
                 <XAxis dataKey="dayHour"></XAxis>
                 <YAxis></YAxis>
-                <CartersianGrid></CartersianGrid>
+                <CartesianGrid></CartesianGrid>
                 <Tooltip></Tooltip>
                 <Legend></Legend>
                 <Line type="monotone" dataKey="max" stroke="#FF0000"></Line>
