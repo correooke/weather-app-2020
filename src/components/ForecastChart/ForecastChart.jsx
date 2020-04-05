@@ -31,8 +31,8 @@ ForecastChart.propTypes = {
     data: PropTypes.arrayOf(
         PropTypes.shape({
             dayHour: PropTypes.string.isRequired,
-            min: PropTypes.string.isRequired,
-            max: PropTypes.string.isRequired,
+            min: PropTypes.number.isRequired,
+            max: PropTypes.number.isRequired,
         }),
     ).isRequired,
 }
