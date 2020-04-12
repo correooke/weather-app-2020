@@ -32,11 +32,11 @@ const AppFrame = ({ children }) => {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Grid container item
+            <Grid item
                 xs={12}
                 sm={11}
                 md={10}
-                bg={8}>
+                lg={8}>
                 {children}
             </Grid>
         </Grid>
