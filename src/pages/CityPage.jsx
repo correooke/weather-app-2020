@@ -1,6 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
+import AppFrame from './../components/AppFrame'
 import CityInfo from './../components/CityInfo'
 import Weather from './../components/Weather'
 import WeatherDetails from './../components/WeatherDetails'
@@ -60,29 +60,31 @@ const CityPage = () => {
     const forecastItemList = forecastItemListExample
 
     return (
-        <Grid container
-            justify="space-around"
-            direction="column"
-            spacing={2}>
-            <Grid item container 
-                xs={12} 
-                justify="center"
-                alignItems="flex-end">
-                <CityInfo city={city} country={country} />
-            </Grid>
-            <Grid container item xs={12}
-                justify="center">
-                <Weather state={state} temperature={temperature} />
-                <WeatherDetails humidity={humidity} 
-                    wind={wind} />
-            </Grid>
-            <Grid item>
-                <ForecastChart data={data} />
-            </Grid>
-            <Grid item>
-                <Forecast forecastItemList={forecastItemList} />
-            </Grid>
-        </Grid>        
+        <AppFrame>
+            <Grid container
+                justify="space-around"
+                direction="column"
+                spacing={2}>
+                <Grid item container 
+                    xs={12} 
+                    justify="center"
+                    alignItems="flex-end">
+                    <CityInfo city={city} country={country} />
+                </Grid>
+                <Grid container item xs={12}
+                    justify="center">
+                    <Weather state={state} temperature={temperature} />
+                    <WeatherDetails humidity={humidity} 
+                        wind={wind} />
+                </Grid>
+                <Grid item>
+                    <ForecastChart data={data} />
+                </Grid>
+                <Grid item>
+                    <Forecast forecastItemList={forecastItemList} />
+                </Grid>
+            </Grid>        
+        </AppFrame>
     )
 }
 
