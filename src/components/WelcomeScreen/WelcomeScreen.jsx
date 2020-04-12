@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import Clouds from 'vanta/dist/vanta.clouds.min'
+import * as THREE from 'three'
 
 const WelcomeScreen = ({ children }) => {
     const myRefDiv = useRef(null) // Valor inicial
@@ -21,7 +23,12 @@ const WelcomeScreen = ({ children }) => {
         if (!vanta) {
             // SOLO PASA UNA VEZ 
             // Acá vamos a hacer la inicialización de "vanta"
-            setVanta(1) // vanta = 1
+            // Activo el efecto "clouds"
+            setVanta(Clouds({
+                THREE,
+                el: myRefDiv.current
+            })) // vanta != 0, es diferente de falso
+
             console.log("Establezco vanta a un valor diferente de 0")
         }
     }, [vanta]) // Con esto me aseguro que siga funcionando bien
