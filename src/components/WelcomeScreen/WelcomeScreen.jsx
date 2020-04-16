@@ -45,7 +45,7 @@ const WelcomeScreen = ({ children }) => {
     // si tuviera más variables "use"
 
     return (
-        <div ref={myRefDiv}>
+        <div className="full" ref={myRefDiv}>
             {children}
         </div>
     )
