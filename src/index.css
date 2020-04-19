@@ -18,9 +18,17 @@ code {
   left: 0;
   bottom: 0;
   right: 0;
+  background-color: rgba(84, 139, 175,0.1);
 }
 
 .highlight {
   height: 170px;
-  background-color: white;
+  color: rgb(34, 53, 116);
+  background-color: rgba(255,255,255,0.1);
+  transition-duration: 2000ms;
+}
+
+.highlight:hover {
+  background-color: rgba(255,255,255,0.5);
+  transition-duration: 2000ms;
 }
