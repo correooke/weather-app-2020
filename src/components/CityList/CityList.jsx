@@ -55,7 +55,7 @@ const CityList = ({ cities, onClickCity }) => {
 
     useEffect(() => {
         const setWeather = (city, country, countryCode) => {
-            const appid = "f99bbd9e4959b513e9bd0d7f7356b38d"
+            const appid = "f99bbd9e4959b513e9bd0d7f7356b38"
             const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${appid}`;
             axios
             .get(url)
@@ -82,6 +82,18 @@ const CityList = ({ cities, onClickCity }) => {
                 */
                // set[VARIABLE_ESTADO](VARIABLE_ESTADO => VARIABLE_ESTADO+1)
                 setAllWeather(allWeather => ({ ...allWeather, [propName]: propValue }))
+            })
+            .catch(error => {
+                if (error.response) { // Errores que nos responde el server
+                    const { data, status } = error.response
+                    console.log("data", data)
+                    console.log("status", status)
+                } else if (error.request) { // Errores que suceden por no llegar al server
+                    console.log("Server in-accesible o no tengo internet")
+                } else { // Errores imprevistos
+                    console.log("Errores imprevistos")
+                }
+                
             })
         }
 
