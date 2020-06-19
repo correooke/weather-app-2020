@@ -59,7 +59,7 @@ const CityList = ({ cities, onClickCity }) => {
 
                 const { data } = response
                 const temperature = Number(convertUnits(data.main.temp).from("K").to("C").toFixed(0))
-                const state = data.weather[0].main.toLowerCase()
+                const state = "diferente" // data.weather[0].main.toLowerCase()
     
                 const propName = getCityCode(city, countryCode)
                 const propValue = { temperature, state } // Ej: { temperature: 10, state: "sunny" }
