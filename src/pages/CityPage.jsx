@@ -41,18 +41,18 @@ const dataExample = [
 ]
 
 const forecastItemListExample = [
-	{ hour: 18, state:"sunny", temperature:17, weekDay:"Jueves" },
-	{ hour: 6, state:"cloud", temperature:18, weekDay:"Viernes" },
-	{ hour: 12, state:"fog", temperature:18, weekDay:"Viernes" },
-	{ hour: 18, state:"cloudy", temperature:19, weekDay:"Viernes" },
-	{ hour: 6, state:"rain", temperature:17, weekDay:"Sábado" },
-	{ hour: 12, state:"rain", temperature:17, weekDay:"Sábado" }, 
+	{ hour: 18, state:"clouds", temperature:17, weekDay:"Jueves" },
+	{ hour: 6, state:"clouds", temperature:18, weekDay:"Viernes" },
+	{ hour: 12, state:"clouds", temperature:18, weekDay:"Viernes" },
+	{ hour: 18, state:"clouds", temperature:19, weekDay:"Viernes" },
+	{ hour: 6, state:"clouds", temperature:17, weekDay:"Sábado" },
+	{ hour: 12, state:"clouds", temperature:17, weekDay:"Sábado" }, 
 ]
 
 const CityPage = () => {
     const city = "Buenos Aires"
     const country = "Argentina"
-    const state = "cloudy"
+    const state = "clouds"
     const temperature = 20
     const humidity = 80
     const wind = 5

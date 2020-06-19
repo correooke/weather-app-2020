@@ -16,6 +16,7 @@ const MainPage = () => {
 
     const onClickHandler = () => {
         // history.push permite alterar la URL por programación
+        // /city/AR/Buenos%20Aires
         history.push("/city")
     }
 
