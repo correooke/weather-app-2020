@@ -1,0 +1,198 @@
+diff --git a/package-lock.json b/package-lock.json
+index 9198467..6bd2a92 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -12318,6 +12318,11 @@
+         "minimist": "^1.2.5"
+       }
+     },
++    "moment": {
++      "version": "2.27.0",
++      "resolved": "https://registry.npmjs.org/moment/-/moment-2.27.0.tgz",
++      "integrity": "sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ=="
++    },
+     "move-concurrently": {
+       "version": "1.0.1",
+       "resolved": "https://registry.npmjs.org/move-concurrently/-/move-concurrently-1.0.1.tgz",
+diff --git a/package.json b/package.json
+index 4e1db6d..5908dd3 100644
+--- a/package.json
++++ b/package.json
+@@ -10,6 +10,7 @@
+     "@testing-library/user-event": "^7.1.2",
+     "axios": "^0.19.2",
+     "convert-units": "^2.3.4",
++    "moment": "^2.27.0",
+     "react": "^16.13.1",
+     "react-dom": "^16.13.1",
+     "react-icons": "^3.9.0",
+diff --git a/src/App.jsx b/src/App.jsx
+index d411852..dbeb8b7 100644
+--- a/src/App.jsx
++++ b/src/App.jsx
+@@ -17,7 +17,7 @@ const App = () => {
+                 <Route path="/main">
+                     <MainPage />
+                 </Route>      
+-                <Route path="/city">
++                <Route path="/city/:countryCode/:city">
+                     <CityPage />
+                 </Route> 
+                 <Route>
+diff --git a/src/components/CityList/CityList.jsx b/src/components/CityList/CityList.jsx
+index ae63553..a9e63ad 100644
+--- a/src/components/CityList/CityList.jsx
++++ b/src/components/CityList/CityList.jsx
+@@ -44,9 +44,7 @@ const renderCityAndCountry = eventOnClickCity => (cityAndCountry, weather) => {
+     )
+ }
+ 
+-// cities: es un array, y en cada item tiene que tener la ciudad, pero además el country
+-// ul: tag html para listas no ordenadas
+-const CityList = ({ cities, onClickCity }) => {
++const useCityListHook = (cities) => {
+     const [allWeather, setAllWeather] = useState({})
+     const [error, setError] = useState(null)
+ 
+@@ -77,7 +75,6 @@ const CityList = ({ cities, onClickCity }) => {
+                     setError("Error al cargar los datos")
+                 }                
+             }
+-
+         }
+ 
+         cities.forEach(({ city, countryCode }) => {
+@@ -86,6 +83,14 @@ const CityList = ({ cities, onClickCity }) => {
+ 
+     }, [cities])
+ 
++    return [allWeather, error, setError]
++}
++// cities: es un array, y en cada item tiene que tener la ciudad, pero además el country
++// ul: tag html para listas no ordenadas
++const CityList = ({ cities, onClickCity }) => {
++    
++    const [allWeather, error, setError] = useCityListHook(cities)
++
+     return (
+         <div>
+             {
+diff --git a/src/pages/CityPage.jsx b/src/pages/CityPage.jsx
+index 7c50d13..50f6fae 100644
+--- a/src/pages/CityPage.jsx
++++ b/src/pages/CityPage.jsx
+@@ -1,5 +1,10 @@
+-import React from 'react'
++import React, { useEffect, useState } from 'react'
+ import Grid from '@material-ui/core/Grid'
++import { useParams } from 'react-router-dom'
++import axios from 'axios'
++import convertUnits from 'convert-units'
++import moment from 'moment';
++import 'moment/locale/es';
+ import AppFrame from './../components/AppFrame'
+ import CityInfo from './../components/CityInfo'
+ import Weather from './../components/Weather'
+@@ -50,14 +55,82 @@ const forecastItemListExample = [
+ ]
+ 
+ const CityPage = () => {
+-    const city = "Buenos Aires"
++
++    const {city, countryCode} = useParams()
++    const [data, setData] = useState()
++    const [forecastList, setForecastList] = useState()
++
++    useEffect(() => {
++        const getForecast = async () => {
++            const appid = "f99bbd9e4959b513e9bd0d7f7356b38d"
++            const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city},${countryCode}&appid=${appid}`
++    
++            try {
++                const { data } = await axios.get(url)
++
++                // dayHour, min, max
++                console.log("forecastChartData >>> ")
++                
++                const dates = [0,1,2,3,4,5].map(i => moment().add(i,'d'))
++                const forecastChartData = dates.map(date => {
++                    const temps = data.list.filter(item => {
++                        console.log("moment(item.dt).dayOfYear()", moment.unix(item.dt).dayOfYear())
++                        console.log("date.dayOfYear()", date.dayOfYear())
++                        return moment.unix(item.dt).dayOfYear() === date.dayOfYear()
++                    })
++                    .map(({main}) => main.temp);
++                    debugger
++                    return {
++                        dayHour: date.format('ddd'),
++                        min: Number(convertUnits(Math.min(...temps)).from("K").to("C").toFixed(0)),
++                        max: Number(convertUnits(Math.max(...temps)).from("K").to("C").toFixed(0)),
++                    }
++                })
++                // { hour: 18, state:"clouds", temperature:17, weekDay:"Jueves" },
++
++                const selectedHours = [3, 6, 12, 15, 18, 21]
++
++                const forecastItemList = data.list
++                    .filter((item, index) => selectedHours.includes(index))
++                    .map(item => ({ 
++                    hour: moment.unix(item.dt).hour(),
++                    weekDay: moment.unix(item.dt).format('dddd'),
++                    state: item.weather[0].main.toLowerCase(),
++                    temperature: Number(convertUnits(item.main.temp).from("K").to("C").toFixed(0))
++                }))
++
++                setForecastList(forecastItemList)
++                /* const forecastChartData = data.list.reduce((acc, item) => {
++                    const date = moment.unix(item.d5).utc()
++                    const day = date.dayOfYear()
++                    const temp = item.main.temp
++                    // const accDay = acc[day] ? acc[day].temps
++                    const newItem = { date, temps: !acc[day] ? [temp] : [...(acc[day]).temps, temp]  }
++                    const newItemMinMax = { ...newItem, min: Math.min(...newItem.temps), max: Math.max(...newItem.temps) }
++                    return ({ ...acc, [day]: newItemMinMax})
++                }, {})
++                console.log("forecastChartData", forecastChartData) */
++                   
++                   /* { 
++                        date: moment.unix(item.dt).utc()
++                    })) */
++
++                setData(forecastChartData)
++            } catch (error) {
++                console.log("error", error)
++            }
++        }
++        getForecast()
++    }, [city, countryCode])
++
++    // const city = "Buenos Aires"
+     const country = "Argentina"
+     const state = "clouds"
+     const temperature = 20
+     const humidity = 80
+     const wind = 5
+-    const data = dataExample
+-    const forecastItemList = forecastItemListExample
++    //const data = dataExample
++    //const forecastItemList = forecastItemListExample
+ 
+     return (
+         <AppFrame>
+@@ -78,10 +151,14 @@ const CityPage = () => {
+                         wind={wind} />
+                 </Grid>
+                 <Grid item>
+-                    <ForecastChart data={data} />
++                    {
++                        data && <ForecastChart data={data} />
++                    }
+                 </Grid>
+                 <Grid item>
+-                    <Forecast forecastItemList={forecastItemList} />
++                    {
++                        forecastList && <Forecast forecastItemList={forecastList} />
++                    }
+                 </Grid>
+             </Grid>        
+         </AppFrame>

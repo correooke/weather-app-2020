@@ -1,5 +1,6 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
+import { useParams } from 'react-router-dom'
 import AppFrame from './../components/AppFrame'
 import CityInfo from './../components/CityInfo'
 import Weather from './../components/Weather'
@@ -50,6 +51,10 @@ const forecastItemListExample = [
 ]
 
 const CityPage = () => {
+
+    const params = useParams()
+
+    console.log(params)
     const city = "Buenos Aires"
     const country = "Argentina"
     const state = "clouds"
