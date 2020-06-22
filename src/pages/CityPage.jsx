@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Grid from '@material-ui/core/Grid'
 import { useParams } from 'react-router-dom'
 import AppFrame from './../components/AppFrame'
@@ -51,18 +51,26 @@ const forecastItemListExample = [
 ]
 
 const CityPage = () => {
+    const [data, setData] = useState(null)
+    const [forecastItemList, setForecastItemList] = useState(null)
 
     const params = useParams()
 
     console.log(params)
+
+    useEffect(() => {
+        setData(dataExample)
+        setForecastItemList(forecastItemListExample)
+    }, [])
+
     const city = "Buenos Aires"
     const country = "Argentina"
     const state = "clouds"
     const temperature = 20
     const humidity = 80
     const wind = 5
-    const data = dataExample
-    const forecastItemList = forecastItemListExample
+    // const data = dataExample
+    // const forecastItemList = forecastItemListExample
 
     return (
         <AppFrame>
@@ -83,10 +91,14 @@ const CityPage = () => {
                         wind={wind} />
                 </Grid>
                 <Grid item>
-                    <ForecastChart data={data} />
+                    {
+                        data && <ForecastChart data={data} />
+                    }
                 </Grid>
                 <Grid item>
-                    <Forecast forecastItemList={forecastItemList} />
+                    {
+                        forecastItemList && <Forecast forecastItemList={forecastItemList} />
+                    }
                 </Grid>
             </Grid>        
         </AppFrame>
