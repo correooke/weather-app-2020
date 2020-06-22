@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import Grid from '@material-ui/core/Grid'
 import { useParams } from 'react-router-dom'
 import AppFrame from './../components/AppFrame'
@@ -54,16 +55,29 @@ const CityPage = () => {
     const [data, setData] = useState(null)
     const [forecastItemList, setForecastItemList] = useState(null)
 
-    const params = useParams()
-
-    console.log(params)
+    const { city, countryCode } = useParams()
 
     useEffect(() => {
-        setData(dataExample)
-        setForecastItemList(forecastItemListExample)
-    }, [])
+        const getForecast = async () => {
+            const appid = "f99bbd9e4959b513e9bd0d7f7356b38d" 
+            const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city},${countryCode}&appid=${appid}`
 
-    const city = "Buenos Aires"
+            try {
+                const { data } = await axios.get(url)
+
+                console.log("data", data)
+
+                setData(dataExample)
+                setForecastItemList(forecastItemListExample)            
+            } catch (error) {
+                console.log(error)            
+            }
+        }
+
+        getForecast()
+
+    }, [city, countryCode])
+
     const country = "Argentina"
     const state = "clouds"
     const temperature = 20
