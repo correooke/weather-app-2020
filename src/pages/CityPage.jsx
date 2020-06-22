@@ -79,11 +79,13 @@ const CityPage = () => {
                     })
                     console.log("day.dayOfYear()", day.dayOfYear())
                     console.log("tempObjArray", tempObjArray)
+
+                    const temps = tempObjArray.map(item => item.main.temp)
                     // dayHour, min, max
                     return ({
                         dayHour: day.format('ddd'), 
-                        min: 10, 
-                        max: 30
+                        min: Math.min(...temps), 
+                        max: Math.max(...temps)
                     })
                 })
                 setData(dataAux)
