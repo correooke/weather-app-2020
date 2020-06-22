@@ -71,11 +71,17 @@ const CityPage = () => {
 
                 const daysAhead = [0, 1, 2, 3, 4, 5]
                 const days = daysAhead.map(d => moment().add(d, 'd'))
-                const dataAux = days.map(d => {
-
+                const dataAux = days.map(day => {
+                    debugger
+                    const tempObjArray = data.list.filter(item => {
+                        const dayOfYear = moment.unix(item.dt).dayOfYear()
+                        return dayOfYear === day.dayOfYear()
+                    })
+                    console.log("day.dayOfYear()", day.dayOfYear())
+                    console.log("tempObjArray", tempObjArray)
                     // dayHour, min, max
                     return ({
-                        dayHour: d.format('ddd'), 
+                        dayHour: day.format('ddd'), 
                         min: 10, 
                         max: 30
                     })
