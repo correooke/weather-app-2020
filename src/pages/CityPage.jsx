@@ -1,5 +1,6 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
+import LinearProgress from '@material-ui/core/LinearProgress'
 import AppFrame from './../components/AppFrame'
 import CityInfo from './../components/CityInfo'
 import Weather from './../components/Weather'
@@ -34,6 +35,11 @@ const CityPage = () => {
                     <Weather state={state} temperature={temperature} />
                     <WeatherDetails humidity={humidity} 
                         wind={wind} />
+                </Grid>
+                <Grid item>
+                    {
+                        !chartData && !forecastItemList && <LinearProgress />
+                    }
                 </Grid>
                 <Grid item>
                     {
