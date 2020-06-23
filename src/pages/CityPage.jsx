@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import convertUnits from 'convert-units'
 import Grid from '@material-ui/core/Grid'
 import moment from 'moment'
 import 'moment/locale/es'
@@ -67,12 +68,13 @@ const CityPage = () => {
             try {
                 const { data } = await axios.get(url)
 
+                const toCelsius = (temp) => Number(convertUnits(temp).from('K').to('C').toFixed(0))
+                
                 console.log("data", data)
 
                 const daysAhead = [0, 1, 2, 3, 4, 5]
                 const days = daysAhead.map(d => moment().add(d, 'd'))
                 const dataAux = days.map(day => {
-                    debugger
                     const tempObjArray = data.list.filter(item => {
                         const dayOfYear = moment.unix(item.dt).dayOfYear()
                         return dayOfYear === day.dayOfYear()
@@ -81,15 +83,31 @@ const CityPage = () => {
                     console.log("tempObjArray", tempObjArray)
 
                     const temps = tempObjArray.map(item => item.main.temp)
+
                     // dayHour, min, max
                     return ({
                         dayHour: day.format('ddd'), 
-                        min: Math.min(...temps), 
-                        max: Math.max(...temps)
+                        min: toCelsius(Math.min(...temps)), 
+                        max: toCelsius(Math.max(...temps))
                     })
                 })
                 setData(dataAux)
-                setForecastItemList(forecastItemListExample)            
+
+                // { hour: 18, state:"clouds", temperature:17, weekDay:"Jueves" }
+                const interval = [4, 8, 12, 16, 20, 24]
+
+                const forecastItemListAux = data.list
+                    .filter((item, index) => interval.includes(index))
+                    .map(item => {
+                        return ({
+                            hour: moment.unix(item.dt).hour(),
+                            weekDay: moment.unix(item.dt).format('dddd'),
+                            state: item.weather[0].main.toLowerCase(),
+                            temperature: toCelsius(item.main.temp)
+                        })
+                    })
+
+                setForecastItemList(forecastItemListAux)            
             } catch (error) {
                 console.log(error)            
             }
