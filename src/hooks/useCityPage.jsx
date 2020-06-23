@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useDebugValue } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { getForecastUrl } from './../utils/urls'
@@ -10,6 +10,8 @@ const useCityPage = () => {
     const [forecastItemList, setForecastItemList] = useState(null)
 
     const { city, countryCode } = useParams()
+
+    useDebugValue(`useCityPage ${city}`)
 
     useEffect(() => {
         const getForecast = async () => {
