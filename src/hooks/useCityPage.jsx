@@ -36,7 +36,7 @@ const useCityPage = () => {
 
     }, [city, countryCode])
 
-    return { city, chartData, forecastItemList }
+    return { city, countryCode, chartData, forecastItemList }
 }
 
 export default useCityPage
