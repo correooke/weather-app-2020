@@ -41,8 +41,12 @@ const CityPage = () => {
                 <Grid container item xs={12}
                     justify="center">
                     <Weather state={state} temperature={temperature} />
-                    <WeatherDetails humidity={humidity} 
-                        wind={wind} />
+                    {
+                        humidity && wind && 
+                        <WeatherDetails 
+                            humidity={humidity} 
+                            wind={wind} />
+                    }
                 </Grid>
                 <Grid item>
                     {
