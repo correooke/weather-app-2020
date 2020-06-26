@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import Grid from '@material-ui/core/Grid'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import AppFrame from './../components/AppFrame'
@@ -15,7 +15,9 @@ import { getCountryNameByCountryCode } from './../utils/serviceCities'
 const CityPage = () => {
     const { city, countryCode, chartData, forecastItemList } = useCityPage()
 
-    const { allWeather } = useCityList([{ city, countryCode }])
+    const cities = useMemo(() => ([{ city, countryCode }]), [city, countryCode])
+
+    const { allWeather } = useCityList(cities)
 
     const weather = allWeather[getCityCode(city, countryCode)]
 
