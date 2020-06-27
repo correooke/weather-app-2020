@@ -9,14 +9,22 @@ import NotFoundPage from './pages/NotFoundPage'
 
 const App = () => {
     const [allWeather, setAllWeather] = useState({})
-    const [chartData, onSetChartData] = useState(null)
-    const [forecastItemList, onSetForecastItemList] = useState(null)
+    const [chartData, setChartData] = useState(null)
+    const [forecastItemList, setForecastItemList] = useState(null)
 
     const onSetAllWeather = useCallback((weatherCity) => {
         setAllWeather(allWeather => {
             return ({ ...allWeather, ...weatherCity })
         })
     }, [setAllWeather])
+
+    const onSetChartData = useCallback((chartDataCity) => {
+        setChartData(chartData => ({ ...chartData, ...chartDataCity }))
+    }, [setChartData])
+
+    const onSetForecastItemList = useCallback((forecastItemListCity) => {
+        setForecastItemList(forecastItemList => ({ ...forecastItemList, ...forecastItemListCity }))
+    }, [setForecastItemList])
 
     const actions = useMemo(() => (
         { 
