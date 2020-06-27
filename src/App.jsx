@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import { BrowserRouter as Router,
     Switch, 
     Route } from 'react-router-dom'
@@ -9,12 +9,30 @@ import NotFoundPage from './pages/NotFoundPage'
 
 const App = () => {
     const [allWeather, setAllWeather] = useState({})
+    const [chartData, onSetChartData] = useState(null)
+    const [forecastItemList, onSetForecastItemList] = useState(null)
 
     const onSetAllWeather = useCallback((weatherCity) => {
         setAllWeather(allWeather => {
             return ({ ...allWeather, ...weatherCity })
         })
     }, [setAllWeather])
+
+    const actions = useMemo(() => (
+        { 
+            onSetAllWeather,
+            onSetChartData, 
+            onSetForecastItemList
+        }
+    ), [onSetAllWeather, onSetChartData, onSetForecastItemList])
+
+    const data = useMemo(() => (
+        {
+            allWeather,
+            chartData, 
+            forecastItemList
+        }
+    ), [allWeather, chartData, forecastItemList])
     
     return (
         <Router>
@@ -23,10 +41,10 @@ const App = () => {
                     <WelcomePage />
                 </Route>
                 <Route path="/main">
-                    <MainPage allWeather={allWeather} onSetAllWeather={onSetAllWeather}/>
+                    <MainPage data={data} actions={actions} />
                 </Route>      
                 <Route path="/city/:countryCode/:city">
-                    <CityPage allWeather={allWeather} onSetAllWeather={onSetAllWeather}/>
+                    <CityPage data={data} actions={actions} />
                 </Route> 
                 <Route>
                     <NotFoundPage />
