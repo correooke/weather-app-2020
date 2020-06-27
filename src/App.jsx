@@ -9,8 +9,8 @@ import NotFoundPage from './pages/NotFoundPage'
 
 const App = () => {
     const [allWeather, setAllWeather] = useState({})
-    const [chartData, setChartData] = useState(null)
-    const [forecastItemList, setForecastItemList] = useState(null)
+    const [allChartData, setAllChartData] = useState({})
+    const [allForecastItemList, setForecastItemList] = useState({})
 
     const onSetAllWeather = useCallback((weatherCity) => {
         setAllWeather(allWeather => {
@@ -19,8 +19,8 @@ const App = () => {
     }, [setAllWeather])
 
     const onSetChartData = useCallback((chartDataCity) => {
-        setChartData(chartData => ({ ...chartData, ...chartDataCity }))
-    }, [setChartData])
+        setAllChartData(chartData => ({ ...chartData, ...chartDataCity }))
+    }, [setAllChartData])
 
     const onSetForecastItemList = useCallback((forecastItemListCity) => {
         setForecastItemList(forecastItemList => ({ ...forecastItemList, ...forecastItemListCity }))
@@ -37,10 +37,10 @@ const App = () => {
     const data = useMemo(() => (
         {
             allWeather,
-            chartData, 
-            forecastItemList
+            allChartData, 
+            allForecastItemList
         }
-    ), [allWeather, chartData, forecastItemList])
+    ), [allWeather, allChartData, allForecastItemList])
     
     return (
         <Router>
