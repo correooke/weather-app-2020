@@ -15,6 +15,10 @@ const useCityList = (cities, allWeather, onSetAllWeather) => {
             const url = getWeatherUrl({city, countryCode})
 
             try {
+                const propName = getCityCode(city, countryCode)
+
+                onSetAllWeather({ [propName]: {} })
+
                 const response = await axios.get(url)
 
                 const allWeatherAux = getAllWeather(response, city, countryCode)
@@ -34,7 +38,7 @@ const useCityList = (cities, allWeather, onSetAllWeather) => {
         }
 
         cities.forEach(({ city, countryCode }) => {
-            if (!allWeather[getCityCode(city, countryCode)]) {
+            if (!allWeather[getCityCode(city, countryCode)]) {  // {}
                 setWeather(city, countryCode)
             }
         });
