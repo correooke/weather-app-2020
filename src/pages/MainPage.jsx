@@ -5,7 +5,7 @@ import AppFrame from './../components/AppFrame'
 import CityList from './../components/CityList'
 import { getCities } from './../utils/serviceCities'
 
-const MainPage = () => {
+const MainPage = ({ onSetAllWeather, allWeather }) => {
     const history = useHistory()
 
     const onClickHandler = (city, countryCode) => {
@@ -15,7 +15,9 @@ const MainPage = () => {
     return (
         <AppFrame>
             <Paper elevation={3}>
-                <CityList 
+                <CityList
+                    allWeather={allWeather}
+                    onSetAllWeather={onSetAllWeather} 
                     cities={getCities()} 
                     onClickCity={onClickHandler} />
             </Paper>
