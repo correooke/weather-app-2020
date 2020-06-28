@@ -6,10 +6,7 @@ import getChartData from './../utils/transform/getChartData'
 import getForecastItemList from './../utils/transform/getForecastItemList'
 import { getCityCode } from './../utils/utils'
 
-const useCityPage = (onSetChartData, onSetForecastItemList) => {
-    // const [chartData, setChartData] = useState(null)
-    // const [forecastItemList, setForecastItemList] = useState(null)
-
+const useCityPage = (allChartData, allForecastItemList, onSetChartData, onSetForecastItemList) => {
     const { city, countryCode } = useParams()
 
     useDebugValue(`useCityPage ${city}`)
@@ -23,7 +20,7 @@ const useCityPage = (onSetChartData, onSetForecastItemList) => {
                 
                 const dataAux = getChartData(data)
 
-                onSetChartData({ [cityCode]: dataAux})
+                onSetChartData({ [cityCode]: dataAux })
 
                 const forecastItemListAux = getForecastItemList(data)
 
@@ -32,10 +29,14 @@ const useCityPage = (onSetChartData, onSetForecastItemList) => {
                 console.log(error)            
             }
         }
+        const cityCode = getCityCode(city, countryCode)
 
-        getForecast()
+        if (allChartData && allForecastItemList && !allChartData[cityCode] && !allForecastItemList[cityCode]) {
+            getForecast()
+        }
+        
 
-    }, [city, countryCode, onSetChartData, onSetForecastItemList])
+    }, [city, countryCode, onSetChartData, onSetForecastItemList, allChartData, allForecastItemList])
 
     return { city, countryCode }
 }
