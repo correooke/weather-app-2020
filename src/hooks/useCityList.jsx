@@ -27,7 +27,7 @@ const useCityList = (cities, allWeather, actions) => {
                 // setAllWeather(allWeather => ({ ...allWeather, ...allWeatherAux })
                 // onSetAllWeather(allWeatherAux)
                 actions({ type: 'SET_ALL_WEATHER', payload: allWeatherAux}) 
-                
+
             } catch (error) {
                 if (error.response) { // Errores que nos responde el server
                     setError("Ha ocurrido un error en el servidor del clima")
@@ -46,7 +46,7 @@ const useCityList = (cities, allWeather, actions) => {
             }
         });
 
-    }, [cities, actions, allWeather])
+    }, [cities, allWeather])
 
     return { error, setError }
 }
