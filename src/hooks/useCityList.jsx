@@ -9,7 +9,6 @@ const useCityList = (cities, allWeather, actions) => {
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        debugger
         const setWeather = async (city, countryCode) => {
 
             const url = getWeatherUrl({city, countryCode})
@@ -46,7 +45,7 @@ const useCityList = (cities, allWeather, actions) => {
             }
         });
 
-    }, [cities, allWeather])
+    }, [cities, allWeather, actions])
 
     return { error, setError }
 }
