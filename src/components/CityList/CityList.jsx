@@ -9,7 +9,7 @@ import CityInfo from './../CityInfo'
 import Weather from './../Weather'
 import { getCityCode } from './../../utils/utils'
 
-const CityListItem = React.memo(({ city, countryCode, country, weather, eventOnClickCity }) => {
+const CityListItem = React.memo(function CityListItem({ city, countryCode, country, weather, eventOnClickCity }) {
     return (
         <ListItem
             button
