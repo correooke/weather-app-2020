@@ -17,7 +17,7 @@
     "react-router-dom": "^6.0.2",
     "react-scripts": "3.4.1",
     "recharts": "^1.8.5",
-    "three": "^0.134.0",
+    "three": "^0.137.0",
     "typeface-roboto": "0.0.75",
     "vanta": "^0.5.14"
   },
