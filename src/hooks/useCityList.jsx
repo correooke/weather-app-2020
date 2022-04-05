@@ -11,7 +11,7 @@ const useCityList = (cities, allWeather, actions) => {
     useEffect(() => {
         const setWeather = async (city, countryCode) => {
 
-            const url = getWeatherUrl({city, countryCode})
+            const url = await getWeatherUrl({city, countryCode})
 
             try {
                 const propName = getCityCode(city, countryCode)

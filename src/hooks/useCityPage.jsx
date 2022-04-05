@@ -13,7 +13,7 @@ const useCityPage = (allChartData, allForecastItemList, actions) => {
 
     useEffect(() => {
         const getForecast = async () => {
-            const url = getForecastUrl({ city, countryCode })
+            const url = await getForecastUrl({ city, countryCode })
             const cityCode = getCityCode(city, countryCode)
             try {
                 const { data } = await axios.get(url)
